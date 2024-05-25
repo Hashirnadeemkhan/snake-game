@@ -5,8 +5,10 @@ const foodSound = new Audio("music/food.mp3"); // Sound when food is eaten
 const bgsound =new Audio("music/music.mp3")
 const gameOverSound = new Audio("music/gameover.mp3"); // Sound when the game is over
 const moveSound = new Audio("music/move.mp3"); // Sound when the snake moves
-let speed = 2; // Game speed
+let initialSpeed = 2; // Initial game speed
+let speed = initialSpeed; // Current game speed
 let lastPaintTime = 0; // Last time the game was rendered
+
 let food = { x: 6, y: 7 }; // Initial position of the food element
 let score = 0;
 
@@ -45,7 +47,8 @@ function gameEngine() {
     alert("Game Over! Press any key to play again");
     snakeArr = [{ x: 13, y: 15 }];
    bgsound.play()
-    score = 0;
+   score = 0;
+   speed = initialSpeed; // Reset the speed to initial value
     scoreBox.innerHTML = "Score: " + score;
   }
  
