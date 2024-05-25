@@ -2,6 +2,7 @@
 let inputDir = { x: 0, y: 0 }; // Direction of the snake's movement
 let snakeArr = [{ x: 13, y: 15 }]; // Initial position of the snake's Array
 const foodSound = new Audio("music/food.mp3"); // Sound when food is eaten
+const bgsound =new Audio("music/music.mp3")
 const gameOverSound = new Audio("music/gameover.mp3"); // Sound when the game is over
 const moveSound = new Audio("music/move.mp3"); // Sound when the snake moves
 let speed = 2; // Game speed
@@ -9,7 +10,9 @@ let lastPaintTime = 0; // Last time the game was rendered
 let food = { x: 6, y: 7 }; // Initial position of the food element
 let score = 0;
 
+
 // game functions
+
 function main(ctime) {
   window.requestAnimationFrame(main); // Calls the main function repeatedly to create a game loop
   if ((ctime - lastPaintTime) / 1000 < 1 / speed) {
@@ -36,13 +39,16 @@ function isCollide(snake) {
 function gameEngine() {
   // part1: updating the snakeArray
   if (isCollide(snakeArr)) {
+    bgsound.pause()
     gameOverSound.play();
     inputDir = { x: 0, y: 0 };
     alert("Game Over! Press any key to play again");
     snakeArr = [{ x: 13, y: 15 }];
+   bgsound.play()
     score = 0;
     scoreBox.innerHTML = "Score: " + score;
   }
+ 
 
   // if you have eaten the food, increment the score and regenerate the food;
   if (snakeArr[0].x === food.x && snakeArr[0].y === food.y) {
@@ -66,33 +72,39 @@ function gameEngine() {
       x: Math.round(a + (b - a) * Math.random()),
       y: Math.round(a + (b - a) * Math.random()),
     };
+    // Increase game speed
+    speed = Math.min(speed + 0.5, 15); // Cap the speed at 15
+    obstacles = generateObstacles(); // Generate new obstacles
   }
+
+
 
   // moving the snake
   for (let i = snakeArr.length - 2; i >= 0; i--) {
     snakeArr[i + 1] = { ...snakeArr[i] };
   }
-
+  
   snakeArr[0].x += inputDir.x;
   snakeArr[0].y += inputDir.y;
+
 
   // part 2: display the snake
   const board = document.getElementById("board"); // Ensure you have a board element
   board.innerHTML = ""; // Clear the previous frame
 
-  snakeArr.forEach((e, index) => {
-    let snakeElement = document.createElement("div");
-    snakeElement.style.gridRowStart = e.y; // Set the row position of the snake segment on the grid
-    snakeElement.style.gridColumnStart = e.x; // Set the column position of the snake segment on the grid
-    // snakeElement.classList.add("snake");
-    if (index === 0) {
-      snakeElement.classList.add("head"); // Add a class for the snake's head
+  snakeArr.forEach((e, index) => {                      // "e"  reperesent the segement of the snake and index represent the position of the segments
+    let snakeElement = document.createElement("div");       //For each segment in snakeArr, a div element is created.
+    snakeElement.style.gridRowStart = e.y;                  // Set the row position of the snake segment on the grid
+    snakeElement.style.gridColumnStart = e.x;                // Set the column position of the snake segment on the grid
+
+    if (index=== 0) {
+      snakeElement.classList.add("head"); //The first segment gets the class head when index is zero
     }
     else{
-      snakeElement.classList.add("snake");
+      snakeElement.classList.add("snake");  //all other segments get the class snake.
     }
     
-    board.appendChild(snakeElement);
+    board.appendChild(snakeElement);    //Each styled segment is appended to the board container.
   });
 
   // Display the food
@@ -103,20 +115,25 @@ function gameEngine() {
   board.appendChild(foodElement);
 }
 
+
 // Start the game loop (main logic starts from here)
+
 let hiscore =localStorage.getItem("hiscore");
-if(hiscore===null){
- hiscoreval=0;
-  localStorage.getItem("hiscore",JSON.stringify(hiscoreval))
+if(hiscore===null){          //If the high score isn't there
+ hiscoreval=0;                 // set the high score value (hiscoreval) to zero
+  localStorage.getItem("hiscore",JSON.stringify(hiscoreval))                //save this value in the special box using localStorage.setItem
 }
 else{
   hiscoreval =JSON.parse(hiscore)
-  hiscoreBox.innerHTML ="High Score:"+hiscore
+  hiscoreBox.innerHTML ="High Score:"+hiscore                //Show the high score on the screen in a box (hiscoreBox).
 }
 
-window.requestAnimationFrame(main); // Start the game loop
 
+
+window.requestAnimationFrame(main); // Start the game loop
+// bgsound.play()
 window.addEventListener("keydown", (e) => {
+  bgsound.play()
   moveSound.play();
   switch (e.key) {
     case "ArrowUp":
@@ -139,3 +156,10 @@ window.addEventListener("keydown", (e) => {
       break;
   }
 });
+
+
+
+  
+
+
+

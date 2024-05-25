@@ -13,32 +13,21 @@ body {
     align-items: center;
 }
 #scoreBox {
-    font-size: large;
-    font-weight: bolder;
-    /* margin-top: 20px; */
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 5px 20px;
-    border-radius: 10px;
     position: absolute;
-    right: 300px;
-    top: 20px;
-    font-family: "New Tegomin", serif;
+    top: 9px;
+    right: 200px;
+    font-size: 39px;
+    font-weight: bold;
+    font-family: 'New Tegomin', serif;
    
 }
 #hiscoreBox{
-    font-size: large;
-    font-weight: bolder;
-    /* margin-top: 20px; */
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px 20px;
-    border-radius: 10px;
     position: absolute;
-    right: 260px;
-    top: 70px;
-    font-family: "New Tegomin", serif;
-   
+    top: 59px;
+    right: 140px;
+    font-size: 39px;
+    font-weight: bold;
+    font-family: 'New Tegomin', serif;
 }
 
 #board {
@@ -72,3 +61,33 @@ body {
         border-radius: 8px;
     }
 
+
+
+
+
+
+    /* Media queries for smaller screens */
+@media (max-width: 600px) {
+    #scoreBox, #hiscoreBox {
+        font-size: 4vw;
+    }
+    
+    #scoreBox {
+        right: 5%;
+    }
+
+    #hiscoreBox {
+        top: 10%;
+        right: 5%;
+    }
+
+    #board {
+        width: 95vmin;
+        height: 95vmin;
+        border-width: 0.8vmin;
+    }
+
+    .head, .snake, .food {
+        border-width: 0.2vmin;
+    }
+}
